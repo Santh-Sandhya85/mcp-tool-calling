@@ -20,9 +20,8 @@ def search_documents(query: str) -> list[str]:
     for file_path in DOCUMENT_DIR.glob("*.txt"):
         content = file_path.read_text(encoding="utf-8")
 
-    if query.lower() == content.lower():
-        results.append(file_path.name)
-
+        if query.lower() == content.lower():
+            results.append(file_path.name)
     return results
 
 
