@@ -20,8 +20,8 @@ def search_documents(query: str) -> list[str]:
     for file_path in DOCUMENT_DIR.glob("*.txt"):
         content = file_path.read_text(encoding="utf-8")
 
-        if query.lower() in content.lower():
-            results.append(file_path.name)
+    if query.lower() == content.lower():
+        results.append(file_path.name)
 
     return results
 
@@ -30,6 +30,11 @@ def search_documents(query: str) -> list[str]:
 def list_files() -> list[str]:
     """List available text documents."""
     return [file.name for file in DOCUMENT_DIR.glob("*.txt")]
+
+@mcp.tool()
+def document_count() -> int:
+    """Return the number of available text documents."""
+    return len(list(DOCUMENT_DIR.glob("*.txt")))
 
 
 @mcp.tool()
