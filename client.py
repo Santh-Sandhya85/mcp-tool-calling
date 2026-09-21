@@ -24,29 +24,45 @@ async def main():
             for tool in tools.tools:
                 print("-", tool.name)
 
-            result = await session.call_tool(
-                "search_documents",
-                {"query": "remote"}
-            )
+            while True:
 
-            print("\nSearch Result:")
-            print(result.structured_content["result"])
+                query = input("\nEnter a query (or type 'exit'): ")
 
-            result = await session.call_tool(
-                "list_files",
-                {}
-            )
+                if query.lower() == "exit":
+                    break
 
-            print("\nFiles:")
-            print(result.structured_content["result"])
+                if query.lower().startswith("search "):
 
-            result = await session.call_tool(
-                "calculate",
-                {"expression": "25 * 4"}
-            )
+                    search_query = query[7:]
 
-            print("\nCalculation:")
-            print(result.structured_content["result"])
+                    result = await session.call_tool(
+                        "search_documents",
+                        {"query": search_query}
+                    )
+
+                elif query.lower() == "list files":
+
+                    result = await session.call_tool(
+                        "list_files",
+                        {}
+                    )
+
+                elif query.lower().startswith("calculate "):
+
+                    expression = query[10:]
+
+                    result = await session.call_tool(
+                        "calculate",
+                        {"expression": expression}
+                    )
+
+                else:
+
+                    print("Unknown command.")
+                    continue
+
+                print("\nResult:")
+                print(result.structured_content["result"])
 
 
 if __name__ == "__main__":
