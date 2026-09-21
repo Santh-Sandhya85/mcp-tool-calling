@@ -24,6 +24,30 @@ async def main():
             for tool in tools.tools:
                 print("-", tool.name)
 
+            result = await session.call_tool(
+                "search_documents",
+                {"query": "remote"}
+            )
+
+            print("\nSearch Result:")
+            print(result.structured_content["result"])
+
+            result = await session.call_tool(
+                "list_files",
+                {}
+            )
+
+            print("\nFiles:")
+            print(result.structured_content["result"])
+
+            result = await session.call_tool(
+                "calculate",
+                {"expression": "25 * 4"}
+            )
+
+            print("\nCalculation:")
+            print(result.structured_content["result"])
+
 
 if __name__ == "__main__":
     asyncio.run(main())
